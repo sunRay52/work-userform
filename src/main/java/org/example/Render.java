@@ -1,15 +1,31 @@
+/*
+ * Copyright (c) 2019-2024. Luka Pavlov and others.
+ * https://github.com/sunRay52/work-userform
+ *
+ * Licensed under the Apache License 2.0
+ */
+
 package org.example;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 
+import java.io.FileWriter;
+
+@RequiredArgsConstructor
 public class Render {
-    public static FileWriter writer;
-    public static void rendering() throws IOException {
-        StringBuilder str = new StringBuilder();
-        Repository.getContacts().forEach(user -> str.append(user.toString() + '\n'));
-        writer = new FileWriter("src/main/resources/contacts.txt", false);
-        writer.write(str.toString());
-        writer.close();
+    private final Repository rep;
+
+    @SneakyThrows
+    public void rendering() {
+        final StringBuilder str = new StringBuilder();
+        rep.getContacts().forEach(user -> str.append(userRender(user)));
+        try (FileWriter writer = new FileWriter("src/main/resources/contacts.txt", false)) {
+            writer.write(str.toString());
+        }
+    }
+
+    private String userRender(final User user) {
+        return user.getFio() + ';' + user.getNumber() + ';' + user.getEmail() + '\n';
     }
 }

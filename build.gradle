@@ -28,6 +28,15 @@ test {
     useJUnitPlatform()
 }
 
+
+tasks {
+    compileJava {
+        finalizedBy(checkstyleMain)
+    }
+    compileTestJava {
+        finalizedBy(checkstyleTest)
+    }
+}
 checkstyle {
     toolVersion = '10.14.0'
     configFile = file("config/checkstyle/checkstyle.xml")

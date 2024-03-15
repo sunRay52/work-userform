@@ -1,26 +1,29 @@
+/*
+ * Copyright (c) 2019-2024. Luka Pavlov and others.
+ * https://github.com/sunRay52/work-userform
+ *
+ * Licensed under the Apache License 2.0
+ */
+
 package org.example;
-
-
 
 import lombok.Getter;
 import lombok.SneakyThrows;
 
 import java.util.ArrayList;
-import java.util.Scanner;
-
 //задать вопрос, почему только статические методы класса можно передавать?
 //когда можно создать объект - Repository
 
-public class Repository  {
-    @Getter
-    private static final ArrayList<User> contacts = new ArrayList<>();
-    static Scanner scan = new Scanner(System.in);
+@Getter
+public class Repository {
+
+    private final ArrayList<User> contacts = new ArrayList<>();
 
     @SneakyThrows
-    public static void addUser(User user) {
+    public void addUser(final User user) {
         int phase = 0;
-        for (User user_inList : contacts) {
-            if (user_inList.getEmail().equals(user.getEmail())) {
+        for (User userInList : contacts) {
+            if (userInList.getEmail().equals(user.getEmail())) {
                 phase += 1;
                 System.out.println("Пользователь с таким email уже существует");
                 break;
@@ -28,40 +31,23 @@ public class Repository  {
         }
         if (phase == 0) {
             contacts.add(user);
-            System.out.println("Пользователь с email: " + user.getEmail() + " добавлен!");
-            Render.rendering();
-        }
-        repeater();
-
-    }
-    public static void repeater() {
-        System.out.println("Что вы хотите сделать ?");
-        System.out.println("Добавить контакт - 1 / Удалить контакт - 2 / Закрыть приложение - любое другое значение");
-        int comand = scan.nextInt();
-        if (comand == 1) {
-            new Wrapper("add");
-        } else if (comand == 2) {
-            new Wrapper("remove");
+            System.out.println("Пользователь с email: " + user.getEmail() + "в контактах!");
         }
     }
 
     @SneakyThrows
-    public static void removeUser(String email) {
-        ArrayList<User> copy = contacts;
-
-        contacts.forEach(user -> {
-            if (user.getEmail().equals(email)) {
-                System.out.println("найден");
-                contacts.remove(user);
-                System.out.println("удален");
-            }
-        });
-        if (copy.containsAll(contacts)) {
-            System.out.println("Пользователь с email: " + email + " не найден");
-        } else {
+    public void removeUser(final String email) {
+        if (contacts.removeIf(user -> email.equals(user.getEmail()))) {
             System.out.println("Пользователь с email: " + email + " удален");
-            Render.rendering();
+        } else {
+            System.out.println("Пользователь с email: " + email + " не найден");
         }
-        repeater();
+    }
+
+    public void checkRepository() {
+        System.out.println("Список контактов: ");
+        final StringBuilder str = new StringBuilder();
+        contacts.forEach(user -> str.append(user.getFio() + ';' + user.getNumber() + ';' + user.getEmail() + '\n'));
+        System.out.println(str);
     }
 }
