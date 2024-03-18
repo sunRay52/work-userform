@@ -21,12 +21,13 @@ public class Read {
 
     @SneakyThrows
     public void reading() {
-        final FileReader reader = new FileReader("src/main/resources/contacts.txt");
-        final ArrayList<String> contacts = splitLines(reader);
-        contacts.forEach(contact -> {
-            final String[] userFields = contact.split(";");
-            rep.addUser(new User(userFields[0], userFields[1], userFields[2]));
-        });
+        final ArrayList<String> contacts = splitLines(new FileReader("src/main/resources/contacts.txt"));
+        if (!contacts.get(0).trim().isEmpty()) {
+            contacts.forEach(contact -> {
+                final String[] userFields = contact.split(";");
+                rep.addUser(new User(userFields[0], userFields[1], userFields[2]));
+            });
+        }
     }
 
     @SneakyThrows
@@ -34,6 +35,7 @@ public class Read {
         final ArrayList<String> contacts = new ArrayList<>();
 
         final BufferedReader br = new BufferedReader(reader);
+
         String line;
 
         while ((line = br.readLine()) != null) {
@@ -42,3 +44,4 @@ public class Read {
         return contacts;
     }
 }
+

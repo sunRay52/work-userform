@@ -11,13 +11,14 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 
 import java.util.ArrayList;
+import java.util.List;
 //задать вопрос, почему только статические методы класса можно передавать?
 //когда можно создать объект - Repository
 
 @Getter
 public class Repository {
 
-    private final ArrayList<User> contacts = new ArrayList<>();
+    private final List<User> contacts = new ArrayList<>();
 
     @SneakyThrows
     public void addUser(final User user) {

@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 @RequiredArgsConstructor // по файнал
 public class Wrapper {
-    Scanner scan = new Scanner(System.in);
+    private final Scanner scan;
     private final Repository rep;
 
     public void wrappering(final String comand) {

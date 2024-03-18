@@ -8,15 +8,15 @@
 package org.example;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-@ComponentScan
+import java.util.Scanner;
+
 @Configuration
 public class SpringConfig {
     @Bean
-    public Wrapper wrapping(final Repository repository) {
-        return new Wrapper(repository);
+    public Wrapper wrapping(final Repository repository, final Scanner scanner) {
+        return new Wrapper(scanner, repository);
     }
 
     @Bean
@@ -32,6 +32,11 @@ public class SpringConfig {
     @Bean
     public Read read(final Repository repository) {
         return new Read(repository);
+    }
+
+    @Bean
+    public Scanner scanner() {
+        return new Scanner(System.in);
     }
  }
 
